@@ -1,112 +1,97 @@
 <!DOCTYPE html>
-<html>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #ffebcd;
-    }
+    <html>
+        <style>
 
-    .container {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-
-    .buttons, .labels {
-        display: flex;
-        flex-direction: column;
-    }
-
-    button {
-        padding: 10px;
-        background-color: #add8e6;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin-bottom: 10px;
-    }
-
-    select, input[type="number"] {
-        padding: 5px;
-        margin-bottom: 10px;
-    }
-
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    th, td {
-        border: 1px solid black;
-        padding: 10px;
-        text-align: left;
-    }
-
-    th {
-        background-color: #add8e6;
-        color: #6495ed;
-    }
-</style>
-
-<body>
-    <div class="container">
-        <div class="buttons">
-            <button onclick="addItem()">Add Item</button>
-            <button onclick="removeItem()">Remove Item</button>
-        </div>
-
-        <div class="labels">
-            <label for="itemSelect">Select Item:</label>
-            <select id="itemSelect"></select>
-            <label for="itemNum">Quantity:</label>
-            <input type="number" id="itemNum" placeholder="Quantity" min="1" required>
-            <button onclick="addNoOfItems()">Add Quantity</button>
-            <div class="label2">
-                <label for="itemSelectToRemove">Select Item:</label>
-                <select id="itemSelectToRemove"></select>
-                <label for="itemNumToRemove">Quantity:</label>
-                <input type="number" id="itemNumToRemove" placeholder="Quantity" min="1" required>
-                <button onclick="removeNoOfItems()">Remove Quantity</button>
-            </div>
-        </div>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Item Name</th>
-                <th>No. of Items</th>
-            </tr>
-        </thead>
-        <tbody id="inventoryBody"></tbody>
-    </table>
-
-    <script>
-        var supply = [];
-
-        function addItem() {
-            var x = prompt("Enter a name: ");
-            var y = parseInt(prompt("Enter a number: "));
-            let itemExists = false;
-            for (let i = 0; i < supply.length; i++) {
-                if (supply[i].itemName === x) {
-                    itemExists = true;
-                    supply[i].noOfItem += y;
-                    break;
-                }
-            }
-            if (!itemExists) {
-                supply.push({ itemName: x, noOfItem: y });
-                updateItemSelect("itemSelect");
-                updateItemSelect("itemSelectToRemove");
-            }
-            displayItems();
+        .all {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
         }
+        .all > *{
+            padding:1rem;
+        }
+        .buttons button {
+            width: 50%;
+            display: block; 
+            margin-bottom: 10px;
+            margin-left: 30%;
+        }
+        .labels button{
+            width: 30%;
+        }
+        .label2{
+            margin-top: 10px;
+            display: block;
+        }
+        .forTable{
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid black;    
+        }
+        table{
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        </style>
 
+        <body>
+        <div class = "all">
+        <div class = "buttons">
+        <button onclick="addItem()">Add Item</button>
+        <button onclick="removeItem()">Remove Item</button>
+        </div>
+
+        <div class = "labels">
+        <label for="itemSelect">Select Item:</label>
+        <select id="itemSelect"></select>
+        <label for="itemNum">Quantity:</label>
+        <input type="number" id="itemNum" placeholder="Quantity" min = "1" required>
+        <button onclick="addNoOfItems()">Add Quantity</button>
+        <div class ="label2">
+        <label for="itemSelectToRemove">Select Item:</label>
+        <select id="itemSelectToRemove"></select>
+        <label for="itemNumToRemove">Quantity:</label>
+        <input type="number" id="itemNumToRemove" placeholder="Quantity"  min = "1" required>
+        <button onclick="removeNoOfItems()">Remove Quantity</button>
+        </div>
+        </div>
+        </div>
+        <div class = "forTable">
+            <table id="inventoryTable">
+                <thead>
+                    <tr>
+                        <th>Item Name</th>
+                        <th>No. of Items</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryBody"></tbody>
+            </table>
+        </div>
+        </body>
+        <script>
+        var supply = [];
+        function addItem() { 
+        var x = prompt("Enter a name: ");
+        var y = parseInt(prompt("Enter a number: "));
+        let itemExists = false;
+        for (let i = 0; i < supply.length; i++) {
+            if (supply[i].itemName === x) {
+            itemExists = true;
+            supply[i].noOfItem += y;
+            break;
+            }
+        }
+        if (!itemExists) {
+            supply.push({ itemName: x, noOfItem: y });
+            updateItemSelect("itemSelect");
+            updateItemSelect("itemSelectToRemove");
+        }
+        displayItems();
+        }
         function removeItem() {
             var name = prompt("Enter a name to remove: ");
             for (let i = 0; i < supply.length; i++) {
@@ -114,7 +99,7 @@
                     supply.splice(i, 1);
                     break;
                 }
-                else {
+                else{
                     alert("Item is not in the inventory!");
                 }
             }
@@ -123,45 +108,42 @@
             displayItems();
         }
 
-        function removeNoOfItems() {
+        function removeNoOfItems(){
             var name = document.getElementById("itemSelectToRemove").value;
-           var num = parseInt(document.getElementById("itemNumToRemove").value);
+            var num = parseInt(document.getElementById("itemNumToRemove").value);
             for (let i = 0; i < supply.length; i++) {
-                if (supply[i].itemName === name) {
-                    supply[i].noOfItem -= num;
-                    if (supply[i].noOfItem < 0) {
-                        supply[i].noOfItem = 0;
-                    }
-                    break;
-                }
+            if (supply[i].itemName === name) {
+            supply[i].noOfItem -= num;
+            if(supply[i].noOfItem < 0){
+                supply[i].noOfItem = 0;
             }
-            displayItems();
+            break;
+            }
         }
-
-        function addNoOfItems() {
+        displayItems();
+        }
+        function addNoOfItems(){
             var name = document.getElementById("itemSelect").value;
             var num = parseInt(document.getElementById("itemNum").value);
             for (let i = 0; i < supply.length; i++) {
-                if (supply[i].itemName === name) {
-                    supply[i].noOfItem += num;
-                    break;
-                }
+            if (supply[i].itemName === name) {
+            supply[i].noOfItem += num;
+            break;
             }
-            displayItems();
         }
-
-        function displayItems() {
+        displayItems();
+        }
+        function displayItems(){
             var tableBody = document.getElementById("inventoryBody");
-            tableBody.innerHTML = "";
-            for (let i = 0; i < supply.length; i++) {
-                var row = tableBody.insertRow();
-                var cell1 = row.insertCell();
-                var cell2 = row.insertCell();
-                cell1.textContent = supply[i].itemName;
-                cell2.textContent = supply[i].noOfItem;
-            }
+                tableBody.innerHTML = "";
+                for (let i = 0; i < supply.length; i++) {
+                    var row = tableBody.insertRow();
+                    var cell1 = row.insertCell();
+                    var cell2 = row.insertCell();
+                    cell1.textContent = supply[i].itemName;
+                    cell2.textContent = supply[i].noOfItem;
+                }
         }
-
         function updateItemSelect(whatId) {
             var selectElement = document.getElementById(whatId);
             selectElement.innerHTML = "";
@@ -172,8 +154,7 @@
                 selectElement.add(option);
             }
         }
-    </script>
-</body>
-</html>
+        </script>
+    </html>
      
  
